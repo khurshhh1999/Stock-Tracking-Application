@@ -8,7 +8,7 @@ lazy val root = (project in file(".")).
       version := "0.1.0-SNAPSHOT",
       scalaVersion    := "2.13.12"
     )),
-    name := "Stock-Tracking-Application",
+    name := "Real-Time-Stock-Tracking-Application",
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-http"                % akkaHttpVersion,
       "com.typesafe.akka" %% "akka-http-spray-json"     % akkaHttpVersion,

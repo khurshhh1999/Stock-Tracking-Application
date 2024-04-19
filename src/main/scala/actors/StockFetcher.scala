@@ -33,6 +33,7 @@ object StockFetcher {
             Behaviors.same
 
           case Response(symbol, response) =>
+//            context.log.info(s"Data received for $symbol")
             implicit val system: ActorSystem[Nothing] = context.system
             response.status match {
               case StatusCodes.OK =>

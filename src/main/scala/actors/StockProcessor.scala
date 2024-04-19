@@ -12,7 +12,8 @@ import org.ta4j.core.indicators.statistics.StandardDeviationIndicator
 import org.ta4j.core.num.{DecimalNum, Num}
 import org.ta4j.core.{BaseBarSeries, BaseBarSeriesBuilder, Indicator}
 
-import java.time.{Instant, ZoneId}
+import java.time.format.DateTimeFormatter
+import java.time.{Instant, ZoneId, ZonedDateTime}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.language.postfixOps
 import scala.util.{Failure, Success}
@@ -20,7 +21,7 @@ import scala.util.{Failure, Success}
 object StockProcessor {
 
   def apply(): Behavior[ProcessorMessage] = Behaviors setup  { context =>
-    lazy val writer = context.spawn(CsvWriter(), "csv-writer")
+    lazy val writer = context.spawn(CsvWriter(ZonedDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))), "csv-writer")
     lazy val table = context.spawn(RecordKeeper(), "table")
 
     Behaviors receiveMessage {

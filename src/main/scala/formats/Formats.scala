@@ -1,7 +1,6 @@
 package formats
 
 import models.Quote
-import org.ta4j.core.BarSeries
 import spray.json.DefaultJsonProtocol.{BigDecimalJsonFormat, JsValueFormat, LongJsonFormat, StringJsonFormat, immSeqFormat, jsonFormat7}
 import spray.json.{JsNull, JsValue, RootJsonFormat, enrichAny}
 
