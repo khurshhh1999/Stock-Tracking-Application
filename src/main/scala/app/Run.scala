@@ -1,19 +1,22 @@
 package app
 
-import actors.StockFetcher
+import actors.Guardian
 import akka.actor.typed.ActorSystem
-import messages.QuoteRequest
+import com.typesafe.config.ConfigFactory
+import messages.Request
 
 import java.time.{ZoneId, ZonedDateTime}
+import scala.io.Source
+import scala.util.Using
 
 object Run extends App {
 
-  val fetcher = ActorSystem(StockFetcher(), "fetcher")
-  val from = ZonedDateTime.of(2024, 3, 28, 0, 0, 0, 0, ZoneId.systemDefault())
-  val to = ZonedDateTime.now()
-  fetcher ! QuoteRequest("GOOG", from, to)
-  fetcher ! QuoteRequest("AAPL", from, to)
-  fetcher ! QuoteRequest("LYFT", from, to)
-  fetcher ! QuoteRequest("UBER", from, to)
+  val from: ZonedDateTime = ZonedDateTime.of(2024, 3, 28, 0, 0, 0, 0, ZoneId.systemDefault())
+  Using(Source.fromResource("symbols.txt")){source =>
+    val symbols:Seq[String] = source.getLines().toSeq.take(150)
+    ActorSystem(Guardian(from, symbols, 30), "guardian", ConfigFactory.load()) ! Request
+  }
+
+
 
 }
