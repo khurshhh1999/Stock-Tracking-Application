@@ -18,7 +18,10 @@ object Formats {
       implicit def JsonToMap(json: JsValue):Map[String, JsValue] = json.asJsObject.fields
 
       def JsonToSeq(json: JsValue): Seq[JsValue] = json.convertTo[Seq[JsValue]]
-      def JsonToDecimalList(json: JsValue):Seq[BigDecimal] = JsonToSeq(json).map(_.convertTo[BigDecimal])
+      def JsonToDecimalList(json: JsValue):Seq[Option[BigDecimal]] = JsonToSeq(json).map {
+        case JsNull => None
+        case value: JsValue => Some(value.convertTo[BigDecimal])
+      }
       def JsToOption(nullable: JsValue): Option[JsValue] = nullable match {
         case JsNull => None
         case _ => Some(nullable)
@@ -30,16 +33,16 @@ object Formats {
           val result = JsonToSeq(value).head
           val timestamps:Seq[Long] = JsonToSeq(result("timestamp")).map(j => j.convertTo[Long])
           val quote = JsonToSeq(result("indicators")("quote")).head
-          val openValues:Seq[BigDecimal] = JsonToDecimalList(quote("open"))
-          val lowValues:Seq[BigDecimal] = JsonToDecimalList(quote("close"))
-          val volumeValues:Seq[BigDecimal] = JsonToDecimalList(quote("volume"))
-          val highValues:Seq[BigDecimal] = JsonToDecimalList(quote("high"))
-          val closeValues:Seq[BigDecimal] = JsonToDecimalList(quote("close"))
-          val adjCloseValues:Seq[BigDecimal] = JsonToDecimalList(JsonToSeq(result("indicators")("adjclose")).head("adjclose"))
+          val openValues = JsonToDecimalList(quote("open"))
+          val lowValues = JsonToDecimalList(quote("close"))
+          val volumeValues = JsonToDecimalList(quote("volume"))
+          val highValues = JsonToDecimalList(quote("high"))
+          val closeValues = JsonToDecimalList(quote("close"))
+          val adjCloseValues = JsonToDecimalList(JsonToSeq(result("indicators")("adjclose")).head("adjclose"))
 
 
           (timestamps zip openValues zip lowValues zip volumeValues zip highValues zip closeValues zip adjCloseValues)
-            .map{case ((((((timestamp, open), low), volume), high), close), adjclose) =>
+            .collect {case ((((((timestamp, Some(open)), Some(low)), Some(volume)), Some(high)), Some(close)), Some(adjclose)) =>
               Quote(timestamp, open, low, volume, high, close, adjclose)}
 
         case None =>

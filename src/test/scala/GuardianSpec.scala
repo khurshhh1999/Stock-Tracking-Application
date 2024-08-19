@@ -1,8 +1,8 @@
-package test
-import akka.actor.testkit.typed.scaladsl.ScalaTestWithActorTestKit
-import org.scalatest.wordspec.AnyWordSpecLike
 import actors.Guardian
-import messages.{GuardianMessage, QuoteRequest, Request}
+import akka.actor.testkit.typed.scaladsl.ScalaTestWithActorTestKit
+import messages.{QuoteRequest, Request}
+import org.scalatest.wordspec.AnyWordSpecLike
+
 import java.time.ZonedDateTime
 
 class GuardianSpec extends ScalaTestWithActorTestKit with AnyWordSpecLike {

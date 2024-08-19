@@ -1,17 +1,11 @@
-package test
-
 import actors.StockFetcher
 import akka.actor.testkit.typed.scaladsl.ScalaTestWithActorTestKit
-import akka.http.scaladsl.model._
-import messages._
-import models._
-import org.scalatest.wordspec.AnyWordSpecLike
-import akka.actor.typed.scaladsl.AskPattern._
 import akka.util.Timeout
+import messages._
+import org.scalatest.wordspec.AnyWordSpecLike
 
-import java.time.{LocalDate, ZonedDateTime}
+import java.time.ZonedDateTime
 import scala.concurrent.duration._
-import scala.concurrent.Future
 
 class StockFetcherSpec extends ScalaTestWithActorTestKit with AnyWordSpecLike {
 

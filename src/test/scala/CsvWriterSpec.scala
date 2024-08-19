@@ -1,13 +1,10 @@
-package test
-
 import actors.CsvWriter
+import akka.actor.testkit.typed.scaladsl.ActorTestKit
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import akka.actor.testkit.typed.scaladsl.ActorTestKit
-import scala.io.Source
-
 
 import java.nio.file.{Files, Paths}
+import scala.io.Source
 
 class CsvWriterSpec extends AnyFlatSpec with Matchers {
   val testKit = ActorTestKit()
