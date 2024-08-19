@@ -18,7 +18,7 @@ object Recommender {
       case (context, LatestIndicators(curr)) =>
         implicit val system: ActorSystem[Nothing] = context.system
         val recommendations = getBuyingRecommendations(prev, curr) zip getSellingRecommendations(prev, curr)
-        context.log.info("Calculating criteria")
+//        context.log.info("Calculating criteria")
         context.pipeToSelf(recommendations) {
           case Success((buyingRecommendations, sellingRecommendations)) => PushRecommendations(buyingRecommendations, sellingRecommendations)
           case Failure(exception) => LogError(exception)
@@ -26,8 +26,8 @@ object Recommender {
         behavior(curr)
 
       case (context, PushRecommendations(buyingRecommendations, sellingRecommendations)) =>
-        context.log.info("buying recommendations:\n" + buyingRecommendations.mkString("\n"))
-        context.log.info("selling recommendations:\n" + sellingRecommendations.mkString("\n"))
+        context.log.info("buying recommendations:\n" + buyingRecommendations.take(10).mkString("\n"))
+        context.log.info("selling recommendations:\n" + sellingRecommendations.take(10).mkString("\n"))
         Behaviors.same
 
       case (context, LogError(exception)) =>

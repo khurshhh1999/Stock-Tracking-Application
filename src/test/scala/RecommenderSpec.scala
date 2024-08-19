@@ -1,25 +1,15 @@
-package test
-
-
-import actors.Recommender
-
-import java.time.ZonedDateTime
 import actors.Recommender
 import akka.actor.testkit.typed.scaladsl.ActorTestKit
-import akka.actor.typed.ActorRef
-import akka.actor.typed.scaladsl.AskPattern._
 import akka.util.Timeout
 import messages.{LatestIndicators, LogError, PushRecommendations, RecommenderMessage}
 import models._
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.wordspec.AnyWordSpecLike
 
-import scala.concurrent.duration._
-import scala.math.BigDecimal
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import scala.concurrent.ExecutionContextExecutor
-import scala.math.BigDecimal
+import scala.concurrent.duration._
 
 class RecommenderSpec extends AnyWordSpecLike with BeforeAndAfterAll {
   val testKit = ActorTestKit()
