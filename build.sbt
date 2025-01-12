@@ -15,7 +15,7 @@ lazy val root = (project in file(".")).
       "com.typesafe.akka" %% "akka-actor-typed"         % akkaVersion,
       "com.typesafe.akka" %% "akka-stream"              % akkaVersion,
       "com.lightbend.akka" %% "akka-stream-alpakka-csv" % "7.0.2",
-      "org.ta4j" % "ta4j-core" % "0.15",
+      "org.ta4j" % "ta4j-core" % "0.16",
       "ch.qos.logback"    % "logback-classic"           % "1.5.2",
 
       "com.typesafe.akka" %% "akka-http-testkit"        % akkaHttpVersion % Test,
